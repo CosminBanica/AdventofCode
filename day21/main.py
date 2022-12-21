@@ -1,4 +1,6 @@
 import re
+import sys
+
 from solver_template import solver_template
 
 SMALL_IN = "small_input.txt"
@@ -76,14 +78,16 @@ def solve_task1(puzzle_data):
 
 
 def solve_task2(puzzle_data):
-    puzzle_data["humn"].value = 3403989690001
+    left = 1
+    right = sys.maxsize
+    puzzle_data["humn"].value = (right + left) // 2
 
     while not puzzle_data["root"].left_equals_right():
-        greater = puzzle_data["root"].left_greater_than_right()
-        if not greater:
-            print(puzzle_data["humn"].value)
-            break
-        puzzle_data["humn"].value += 1
+        if puzzle_data["root"].left_greater_than_right():
+            left = puzzle_data["humn"].value
+        else:
+            right = puzzle_data["humn"].value
+        puzzle_data["humn"].value = (right + left) // 2
 
     res = puzzle_data["humn"].value
 
